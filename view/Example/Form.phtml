@@ -1,0 +1,63 @@
+<h2>Example: Process Form</h2>
+
+<?php
+if (isset($formResult)) {
+	echo "<h3>$formResult</h3>";
+}
+?>
+
+<form method="post" action="">
+	<div>Write your name: <input type="text" name="name" value="" maxlength="10"></div>
+	<div><input type="submit" name="send" value="Send"></div>
+</form>
+
+<h2>The code</h2>
+
+<h3>controller/ExampleController.php</h3>
+<pre>
+&lt;?php
+
+class ExampleController extends Controller
+{
+	public function init() {
+	}
+
+	public function IndexAction() {
+		$this->render();
+	}
+
+	public function FormAction() {
+		
+		$send = $this->getPostVar('send', 'string');
+
+		if (isset($send) and $send != '') {
+			$name = $this->getPostVar('name', 'string');
+
+			if (isset($name) and $name != '') {
+				$formResult = 'Form OK, you text is: '.$name;
+			}
+			else {
+				$formResult = 'Please, write some text';
+			}
+			$this->setViewVar('formResult', $formResult);
+		}
+		$this->render();
+	}
+}
+</pre>
+
+<h3>view/Example/Form.phtml</h3>
+<pre>
+&lt;h2&gt;Example: Process Form&lt;/h2&gt;
+
+&lt;?php
+if (isset($formResult)) {
+	echo "&lt;h3&gt;$formResult&lt;/h3&gt;";
+}
+?&gt;
+
+&lt;form method="post" action=""&gt;
+	&lt;div&gt;Write your name: &lt;input type="text" name="name" value="" maxlength="10"&gt;&lt;/div&gt;
+	&lt;div&gt;&lt;input type="submit" name="send" value="Send"&gt;&lt;/div&gt;
+&lt;/form&gt;
+</pre>
