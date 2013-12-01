@@ -1,0 +1,65 @@
+<h2>Example: Database Access</h2>
+<table border="1">
+<tr>
+	<td>Username</td>
+	<td>Host</td>
+</tr>
+<?php
+foreach ($result as $r) {
+	echo '<tr>'
+	.'<td>'.$r['User'].'</td>'
+	.'<td>'.$r['Host'].'</td>'
+	.'</tr>';
+}
+?>
+</table>
+
+<h2>The Code</h2>
+<h3>controller/ExampleController.php</h3>
+
+<pre>
+&lt;?php
+
+class ExampleController extends Controller
+{
+	public function init() {
+	}
+
+	public function IndexAction() {
+		$this->render();
+	}
+
+	public function DBAccessAction() {
+		$sql = 'SELECT Host, User FROM user WHERE User = :user';
+		$params = array(
+			array('key' => ':user', 'value' => 'root', 'type' => PDO::PARAM_STR)
+		);
+		
+		$dao = new Dao();
+		$result = $dao->doSelect($sql, $params);
+
+		$this->setViewVar('result', $result);
+
+		$this->render();
+	}
+}
+</pre>
+
+<h3>view/Example/DBAccess.phtml</h3>
+<pre>
+&lt;h2&gt;Example: Database Access&lt;/h2&gt;
+&lt;table border="1"&gt;
+&lt;tr&gt;
+	&lt;td&gt;Username&lt;/td&gt;
+	&lt;td&gt;Host&lt;/td&gt;
+&lt;/tr&gt;
+&lt;?php
+foreach ($result as $r) {
+	echo '&lt;tr&gt;'
+	.'&lt;td&gt;'.$r['User'].'&lt;/td&gt;'
+	.'&lt;td&gt;'.$r['Host'].'&lt;/td&gt;'
+	.'&lt;/tr&gt;';
+}
+?&gt;
+&lt;/table&gt;
+</pre>

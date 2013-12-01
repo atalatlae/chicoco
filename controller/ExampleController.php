@@ -26,4 +26,18 @@ class ExampleController extends Controller
 		}
 		$this->render();
 	}
+
+	public function DBAccessAction() {
+		$sql = 'SELECT Host, User FROM user WHERE User = :user';
+		$params = array(
+			array('key' => ':user', 'value' => 'root', 'type' => PDO::PARAM_STR)
+		);
+		
+		$dao = new Dao();
+		$result = $dao->doSelect($sql, $params);
+
+		$this->setViewVar('result', $result);
+
+		$this->render();
+	}
 }
