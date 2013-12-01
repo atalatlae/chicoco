@@ -9,13 +9,13 @@ class Init
 	public function autoLoadClass($className)
 	{
 		if (is_file("core/".$className.".php")) {
-			include("core/".$className.".php");
+			include_once("core/".$className.".php");
 		}
 		else if (is_file("controller/".$className.".php")) {
-			include("controller/".$className.".php");
+			include_once("controller/".$className.".php");
 		}
 		elseif (is_file("model/".$className.".php")) {
-			include ("model/".$className.".php");
+			include_once("model/".$className.".php");
 		}
 		else {
 			throw new Exception("Unable to load class $className.");
