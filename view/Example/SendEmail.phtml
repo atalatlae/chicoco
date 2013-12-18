@@ -1,4 +1,11 @@
-<?php
+<h2>Send Email</h2>
+
+<p><?php echo $message; ?></p>
+
+<h2>The Code</h2>
+<h3>controller/ExampleController.php</h3>
+<pre>
+&lt;?php
 
 class ExampleController extends Controller
 {
@@ -9,41 +16,14 @@ class ExampleController extends Controller
 		$this->render();
 	}
 
-	public function FormAction() {
-		
-		$send = $this->getPostVar('send', 'string');
-
-		if (isset($send) and $send != '') {
-			$name = $this->getPostVar('name', 'string');
-
-			if (isset($name) and $name != '') {
-				$formResult = 'Form OK, you text is: '.$name;
-			}
-			else {
-				$formResult = 'Please, write some text';
-			}
-			$this->setViewVar('formResult', $formResult);
-		}
-		$this->render();
-	}
-
-	public function DBAccessAction() {
-		$userDao = new UserDao();
-		$result = $userDao->getUserByLogin('root');
-
-		$this->setViewVar('result', $result);
-		$this->render();
-	}
 
 	public function SendEmailAction() {
 		$from = 'noreply@example.com';
 		$to = 'atalatlae@gmail.com';
 		$subject = 'test email';
 		$content = '';
-
 		$data = array(
 			'mailContent' => 'Hello World',
-			'date' => date('Y-m-d')
 		);
 
 		$mail = new Mail($from, $to, $subject, $content, $data);
@@ -58,4 +38,6 @@ class ExampleController extends Controller
 
 		$this->render();
 	}
+
 }
+</pre>
