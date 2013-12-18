@@ -37,7 +37,7 @@ class ExampleController extends Controller
 
 	public function SendEmailAction() {
 		$from = 'noreply@example.com';
-		$to = 'atalatlae@gmail.com';
+		$to = 'example@example.com';
 		$subject = 'test email';
 		$content = '';
 
