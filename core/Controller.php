@@ -159,7 +159,7 @@ class Controller
 			"url"    => FILTER_SANITIZE_URL
 		);
 
-		if (isset($filtes[$type])) {
+		if (isset($filters[$type])) {
 			return filter_var($var, $filters[$type]);
 		}
 		else {
