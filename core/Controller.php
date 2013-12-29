@@ -5,12 +5,14 @@ class Controller
 	protected $_controller;
 	protected $_action;
 	protected $_defaultLayout = 'default';
-	private   $_data = array();
 	protected $_pathParams = array();
 	protected $_scripts;
+	protected $_log;
+
+	private   $_data = array();
 
 	public function __construct() {
-
+		$this->_log = new Log();
 	}
 
 	public function __call($name, $params) {
@@ -93,15 +95,15 @@ class Controller
 	}
 
 	public function logInfo($message = '') {
-		$this->_log->info($message, $this->_controller, $this->_action);
+		return $this->_log->info($message, $this->_controller, $this->_action);
 	}
 
 	public function logWarning($message = '') {
-		$this->_log->warning($message, $this->_controller, $this->_action);
+		return $this->_log->warning($message, $this->_controller, $this->_action);
 	}
 
 	public function logError($message = '') {
-		$this->_log->error($message, $this->_controller, $this->_action);
+		return $this->_log->error($message, $this->_controller, $this->_action);
 	}
 
 	public function getUrlVar($name = '', $type = '') {

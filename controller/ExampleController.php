@@ -58,4 +58,18 @@ class ExampleController extends Controller
 
 		$this->render();
 	}
+
+	public function LoggingAction() {
+
+		$this->logInfo("This is a info log");
+		$this->logWarning("This is a warning log message");
+		$this->logError("This is a error log message");
+
+		$logDao = new LogDao();
+		$logs = $logDao->getLogs();
+
+		$this->setViewVar('logs', $logs);
+
+		$this->render();
+	}
 }
