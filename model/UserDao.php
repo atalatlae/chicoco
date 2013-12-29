@@ -1,7 +1,7 @@
 <?php 
 
 /*
- * This class is an example to show how chicoco framework use de database clases
+ * This class is an example to show how chicoco framework use the database clases
  */
 
 class UserDao extends Dao
