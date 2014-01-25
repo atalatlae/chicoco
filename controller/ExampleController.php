@@ -72,4 +72,22 @@ class ExampleController extends Controller
 
 		$this->render();
 	}
+
+	public function SessionAction() {
+		$session = Session::getInstance();
+		if (!$session->getVar('foo')) {
+			$session->setVar('foo', rand (1111, 9999 ));
+		}
+
+		$changeValue = $this->getRequestVar('change', 'string');
+		if (isset($changeValue)) {
+			$session->setVar('foo', rand (1111, 9999 ));
+			$this->redirect('/Example/Session');
+		}
+
+		$foo = $session->getVar('foo');
+		$this->setViewVar('foo', $foo);
+
+		$this->render();
+	}
 }

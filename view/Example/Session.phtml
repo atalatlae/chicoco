@@ -1,0 +1,53 @@
+<h2>Example: Using Sesion</h2>
+
+<p>The $foo var is a session var and the current value is: <?php echo $foo ?></p>
+
+<form method="get" action="/Example/Session">
+	<p>If you want change the value for $foo var, press the button: <input type="submit" name="change" value="Change the value" /></p>
+</form>
+
+<h2>The Code</h2>
+<h3>controller/ExampleController.php</h3>
+
+<pre>
+&lt;?php
+
+class ExampleController extends Controller
+{
+	public function init() {
+	}
+
+	public function IndexAction() {
+		$this-&gt;render();
+	}
+
+	public function SessionAction() {
+		$session = Session::getInstance();
+		if (!$session-&gt;getVar('foo')) {
+			$session-&gt;setVar('foo', rand (1111, 9999 ));
+		}
+
+		$changeValue = $this-&gt;getRequestVar('change', 'string');
+		if (isset($changeValue)) {
+			$session-&gt;setVar('foo', rand (1111, 9999 ));
+			$this-&gt;redirect('/Example/Session');
+		}
+
+		$foo = $session-&gt;getVar('foo');
+		$this-&gt;setViewVar('foo', $foo);
+
+		$this-&gt;render();
+	}
+}
+</pre>
+
+<h3>view/Example/Session.phtml</h3>
+<pre>
+&lt;h2&gt;Example: Using Sesion&lt;/h2&gt;
+
+&lt;p&gt; The $foo var is a session var and the current value is: &lt;?php echo $foo ?&gt; &lt;/p&gt;
+
+&lt;form method="get" action="/Example/Session"&gt;
+	&lt;p&gt;If you want change the value for $foo var, press the button: &lt;input type="submit" name="change" value="Change the value" /&gt;&lt;/p&gt;
+&lt;/form&gt;
+</pre>
