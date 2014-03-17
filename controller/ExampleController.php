@@ -60,6 +60,8 @@ class ExampleController extends Controller
 	}
 
 	public function LoggingAction() {
+		// Overwrite the _log attribure
+		$this->_log = new LogDb();
 
 		$this->logInfo("This is a info log");
 		$this->logWarning("This is a warning log message");

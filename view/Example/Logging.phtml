@@ -33,6 +33,9 @@ class ExampleController extends Controller
 
 	public function LoggingAction() {
 
+		// Overwrite the _log attribure
+		$this-&gt;_log = new LogDb();
+
 		$this-&gt;logInfo("This is a info log");
 		$this-&gt;logWarning("This is a warning log message");
 		$this-&gt;logError("This is a error log message");
