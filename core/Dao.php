@@ -2,12 +2,11 @@
 
 class Dao extends DataBase
 {
-	private $_db;
+	protected $_db;
 	protected $msgResult = "";
 
 	function __construct() {
-		$this->_db = Database::getInstance();
-		parent::__construct();
+		$this->_db = $this->getInstance();
 	}
 
 	public function getMsgResult() {
