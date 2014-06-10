@@ -1,5 +1,7 @@
 <?php
 
+namespace Chicoco;
+
 class Init
 {
 	function __construct() {
@@ -8,6 +10,8 @@ class Init
 
 	public function autoLoadClass($className)
 	{
+		$className = str_replace("Chicoco\\", '', $className);
+
 		if (is_file("core/".$className.".php")) {
 			include_once("core/".$className.".php");
 		}
@@ -18,7 +22,7 @@ class Init
 			include_once("model/".$className.".php");
 		}
 		else {
-			throw new Exception("Unable to load class $className.");
+			// throw new Exception("Unable to load class $className.");
 		}
 	}
 }

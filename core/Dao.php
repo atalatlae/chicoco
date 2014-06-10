@@ -1,5 +1,7 @@
 <?php
 
+namespace Chicoco;
+
 class Dao extends DataBase
 {
 	protected $_db;
@@ -35,7 +37,7 @@ class Dao extends DataBase
 				throw new Exception('Dao: '.var_export($error, true));
 			}
 
-			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+			$result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
 			return $result;
 		}
@@ -57,7 +59,7 @@ class Dao extends DataBase
 				foreach ($params as $p) {
 
 					if (!isset($p['type'])) {
-						$p['type'] = PDO::PARAM_STR;
+						$p['type'] = \PDO::PARAM_STR;
 					}
 
 					$stmt->bindParam($p['key'], $p['value'], $p['type']);

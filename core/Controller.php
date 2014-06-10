@@ -1,5 +1,7 @@
 <?php
 
+namespace Chicoco;
+
 class Controller
 {
 	protected $_controller;

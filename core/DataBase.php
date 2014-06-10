@@ -1,6 +1,8 @@
 <?php
 
-class DataBase extends PDO
+namespace Chicoco;
+
+class DataBase extends \PDO
 {
 	protected static $_instance;
 
@@ -26,7 +28,7 @@ class DataBase extends PDO
 			parent::__construct($dsn, $this->username, $this->pass);
 		}
 		catch (Exception $e) {
-			throw new Exception('Database: error when try to connect');
+			throw new Exception('Database: error when try to connect: '.$e->getMessage());
 			return false;
 		}
 	}

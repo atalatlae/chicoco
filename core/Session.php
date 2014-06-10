@@ -1,5 +1,7 @@
 <?php
 
+namespace Chicoco;
+
 class Session extends Singleton
 {
 	public function __construct() {

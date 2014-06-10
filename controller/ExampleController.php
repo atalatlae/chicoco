@@ -1,6 +1,6 @@
 <?php
 
-class ExampleController extends Controller
+class ExampleController extends Chicoco\Controller
 {
 	public function init() {
 	}
@@ -61,7 +61,7 @@ class ExampleController extends Controller
 
 	public function LoggingAction() {
 		// Overwrite the _log attribure
-		$this->_log = new LogDb();
+		$this->_log = new Chicoco\LogDb();
 
 		$this->logInfo("This is a info log");
 		$this->logWarning("This is a warning log message");
@@ -76,7 +76,8 @@ class ExampleController extends Controller
 	}
 
 	public function SessionAction() {
-		$session = Session::getInstance();
+		$session = Chicoco\Session::getInstance();
+
 		if (!$session->getVar('foo')) {
 			$session->setVar('foo', rand (1111, 9999 ));
 		}

@@ -1,10 +1,12 @@
 <?php
 
+namespace Chicoco;
+
 class Singleton
 {
 	protected static $_instance;
 
-	public function __construct(){
+	private function __construct(){
 	}
 
 	public static function getInstance() {

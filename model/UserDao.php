@@ -4,7 +4,7 @@
  * This class is an example to show how chicoco framework use the database clases
  */
 
-class UserDao extends Dao
+class UserDao extends Chicoco\Dao
 {
 	public function getUserByLogin($user = "") {
 		try {
