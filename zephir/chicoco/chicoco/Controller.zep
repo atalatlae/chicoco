@@ -14,7 +14,7 @@ class Controller
 		let this->_log = new Log();
 	}
 
-	public function __call(name, :params) {
+	public function __call(name, params) {
 		return false;
 	}
 
