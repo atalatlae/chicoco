@@ -2,7 +2,7 @@
 
 namespace Chicoco;
 
-class Log
+class _Log
 {
 	protected $_logLevel;
 

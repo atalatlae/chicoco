@@ -2,7 +2,7 @@
 
 namespace Chicoco;
 
-class LogDb extends Log
+class _LogDb extends Log
 {
 	private $_db;
 	private $_levels = array(

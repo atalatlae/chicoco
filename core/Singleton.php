@@ -2,7 +2,7 @@
 
 namespace Chicoco;
 
-class Singleton
+class _Singleton
 {
 	protected static $_instance;
 

@@ -2,7 +2,7 @@
 
 namespace Chicoco;
 
-class Session extends Singleton
+class _Session extends Singleton
 {
 	public function __construct() {
 		session_start();

@@ -2,7 +2,7 @@
 
 namespace Chicoco;
 
-class DataBase extends \PDO
+class _DataBase extends \PDO
 {
 	protected static $_instance;
 

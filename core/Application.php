@@ -2,7 +2,7 @@
 
 namespace Chicoco;
 
-class Application
+class _Application
 {
 	private static $_instance;
 

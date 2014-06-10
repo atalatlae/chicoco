@@ -2,7 +2,7 @@
 
 namespace Chicoco;
 
-class Init
+class _Init
 {
 	function __construct() {
 		spl_autoload_register(array($this, "autoLoadClass"));

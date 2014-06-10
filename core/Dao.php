@@ -2,7 +2,7 @@
 
 namespace Chicoco;
 
-class Dao extends DataBase
+class _Dao extends DataBase
 {
 	protected $_db;
 	protected $msgResult = "";

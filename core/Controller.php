@@ -2,7 +2,7 @@
 
 namespace Chicoco;
 
-class Controller
+class _Controller
 {
 	protected $_controller;
 	protected $_action;
