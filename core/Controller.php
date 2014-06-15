@@ -39,8 +39,19 @@ class Controller
 		return $this;
 	}
 
-	public function getPathParams() {
-		return $this->_pathParams;
+	public function getPathParams($name = '') {
+		if ($name == '') {
+			return $this->_pathParams;
+		}
+		else {
+			$k = array_search($name, $this->_pathParams);
+			if ($k !== false) {
+				return $this->_pathParams[$k+1];
+			}
+			else {
+				return NULL;
+			}
+		}
 	}
 
 	public function render($layout = '', $fileName = '') {

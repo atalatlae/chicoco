@@ -93,4 +93,10 @@ class ExampleController extends Chicoco\Controller
 
 		$this->render();
 	}
+
+	public function UrlParamsAction() {
+		$foo = $this->getPathParams('foo');
+		$this->setViewVar('foo', $foo);
+		$this->render();
+	}
 }
