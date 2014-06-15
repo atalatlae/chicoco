@@ -8,14 +8,12 @@ class UserDao extends Chicoco\Dao
 {
 	public function getUserByLogin($user = "") {
 		try {
-			$sql = 'SELECT Host, User FROM user WHERE User = :user';
+			$this->setSql('SELECT Host, User FROM user WHERE User = :user');
+			$this->clearParams();
+			$this->addParam(':user', $user, PDO::PARAM_STR);
+			$this->doSelect();
 
-			$params = array(
-				array('key' => ':user', 'value' => $user, 'type' => PDO::PARAM_STR)
-			);
-			
-			$result = $this->doSelect($sql, $params);
-			return $result;
+			return $this->_result;
 		}
 		catch (Exception $e) {
 			$this->msgResult($e->getMessage());

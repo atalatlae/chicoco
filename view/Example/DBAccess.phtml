@@ -25,21 +25,15 @@ class ExampleController extends Controller
 	}
 
 	public function IndexAction() {
-		$this->render();
+		$this-&gt;render();
 	}
 
 	public function DBAccessAction() {
-		$sql = 'SELECT Host, User FROM user WHERE User = :user';
-		$params = array(
-			array('key' => ':user', 'value' => 'root', 'type' => PDO::PARAM_STR)
-		);
-		
-		$dao = new Dao();
-		$result = $dao->doSelect($sql, $params);
+		$userDao = new UserDao();
+		$result = $userDao-&gt;getUserByLogin('root');
 
-		$this->setViewVar('result', $result);
-
-		$this->render();
+		$this-&gt;setViewVar('result', $result);
+		$this-&gt;render();
 	}
 }
 </pre>
@@ -52,14 +46,12 @@ class UserDao extends Dao
 {
 	public function getUserByLogin($user = "") {
 		try {
-			$sql = 'SELECT Host, User FROM user WHERE User = :user';
+			$this-&gt;setSql('SELECT Host, User FROM user WHERE User = :user');
+			$this-&gt;clearParams();
+			$this-&gt;addParam(':user', $user, PDO::PARAM_STR);
+			$this-&gt;doSelect();
 
-			$params = array(
-				array('key' =&gt; ':user', 'value' =&gt; $user, 'type' =&gt; PDO::PARAM_STR)
-			);
-			
-			$result = $this-&gt;doSelect($sql, $params);
-			return $result;
+			return $this-&gt;_result;
 		}
 		catch (Exception $e) {
 			$this-&gt;msgResult($e-&gt;getMessage());
