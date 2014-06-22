@@ -4,11 +4,14 @@
  * This class is an example to show how chicoco framework use the database clases
  */
 
-class LogDao extends Chicoco\Dao{
+class LogDao extends Chicoco\Dao
+{
 	public function getLogs() {
 		try {
-			$sql = 'SELECT * FROM logs ORDER BY timestamp asc';
-			$result = $this->doSelect($sql, array());
+			$this->setSql('SELECT * FROM logs ORDER BY timestamp asc');
+			$this->clearParams();
+			$this->doSelect();
+			$result = $this->getResult();
 
 			return $result;
 		}

@@ -56,9 +56,10 @@ class ExampleController extends Controller
 class LogDao extends Dao{
 	public function getLogs() {
 		try {
-			$sql = 'SELECT * FROM logs ORDER BY log_id asc';
-			$result = $this-&gt;doSelect($sql, array());
-
+			$this-&gt;setSql('SELECT * FROM logs ORDER BY timestamp asc');
+			$this-&gt;clearParams();
+			$this-&gt;doSelect();
+			$result = $this-&gt;getResult();
 			return $result;
 		}
 		catch (Exception $e) {
