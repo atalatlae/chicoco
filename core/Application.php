@@ -65,7 +65,6 @@ class Application
 		}
 		catch (Exception $e) {
 			header("HTTP/1.0 404 Not Found");
-var_dump($e);
 			include('layout/404.phtml');
 			return false;
 		}
