@@ -41,7 +41,7 @@ class Dao extends DataBase
 
 			return $result;
 		}
-		catch (Exception $e) {
+		catch (\Exception $e) {
 			$this->msgResult = $e->getMessage();
 			return false;
 		}
@@ -70,11 +70,11 @@ class Dao extends DataBase
 
 			if ($query !== true) {
 				$error = $stmt->errorInfo();
-				throw new Exception('Dao: '.var_export($error, true));
+				throw new \Exception('Dao: '.var_export($error, true));
 			}
 			return true;
 		}
-		catch (Exception $e) {
+		catch (\Exception $e) {
 			$this->msgResult = $e->getMessage();
 			return false;
 		}
