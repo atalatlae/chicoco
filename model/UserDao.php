@@ -16,7 +16,7 @@ class UserDao extends Chicoco\Dao
 			return $this->_result;
 		}
 		catch (Exception $e) {
-			$this->msgResult($e->getMessage());
+			$this->msgResult = $e->getMessage();
 			return false;
 		}
 	}

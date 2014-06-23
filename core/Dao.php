@@ -39,7 +39,7 @@ class Dao extends DataBase
 
 			$this->_result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 		}
-		catch (Exception $e) {
+		catch (\Exception $e) {
 			$this->msgResult = $e->getMessage();
 			$this->_result = false;
 		}
@@ -57,11 +57,11 @@ class Dao extends DataBase
 
 			if ($query !== true) {
 				$error = $stmt->errorInfo();
-				throw new Exception('Dao: '.var_export($error, true));
+				throw new \Exception('Dao: '.var_export($error, true));
 			}
 			return true;
 		}
-		catch (Exception $e) {
+		catch (\Exception $e) {
 			$this->msgResult = $e->getMessage();
 			return false;
 		}
