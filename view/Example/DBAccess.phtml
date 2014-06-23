@@ -62,7 +62,7 @@ class UserDao extends Dao
 			return $result;
 		}
 		catch (Exception $e) {
-			$this-&gt;msgResult($e-&gt;getMessage());
+			$this-&gt;msgResult = $e-&gt;getMessage();
 			return false;
 		}
 	}

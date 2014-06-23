@@ -27,8 +27,8 @@ class DataBase extends \PDO
 			$dsn = $this->engine.":dbname=".$this->dbname."; host=".$this->host;
 			parent::__construct($dsn, $this->username, $this->pass);
 		}
-		catch (Exception $e) {
-			throw new Exception('Database: error when try to connect: '.$e->getMessage());
+		catch (\Exception $e) {
+			throw new \Exception('Database: error when try to connect: '.$e->getMessage());
 			return false;
 		}
 	}

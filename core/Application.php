@@ -53,7 +53,7 @@ class Application
 			$c = new $this->_controller;
 
 			if ( !($c instanceof Controller)) {
-				throw new Exception('Unable to load class '.$this->_controller);
+				throw new \Exception('Unable to load class '.$this->_controller);
 			}
 
 			$c->setController($this->_controller);
@@ -63,7 +63,7 @@ class Application
 			$c->init();
 			$c->{$this->_action.'Action'}();
 		}
-		catch (Exception $e) {
+		catch (\Exception $e) {
 			header("HTTP/1.0 404 Not Found");
 			include('layout/404.phtml');
 			return false;

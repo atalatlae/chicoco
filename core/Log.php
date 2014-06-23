@@ -33,7 +33,7 @@ class Log
 
 			return true;
 		}
-		catch (Exception $e) {
+		catch (\Exception $e) {
 			$this->msgResult = $e->getMessage();
 			return false;
 		}

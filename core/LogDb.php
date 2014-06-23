@@ -36,12 +36,12 @@ class LogDb extends Log
 
 			if ($query === false) {
 				$error = $this->_db->getMsgResult();
-				throw new Exception('Log: '.var_export($error, true));
+				throw new \Exception('Log: '.var_export($error, true));
 			}
 
 			return true;
 		}
-		catch (Exception $e) {
+		catch (\Exception $e) {
 			$this->msgResult = $e->getMessage();
 			return false;
 		}

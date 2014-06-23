@@ -34,7 +34,7 @@ class Dao extends DataBase
 
 			if ($query !== true) {
 				$error = $stmt->errorInfo();
-				throw new Exception('Dao: '.var_export($error, true));
+				throw new \Exception('Dao: '.var_export($error, true));
 			}
 
 			$result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
