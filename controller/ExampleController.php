@@ -46,7 +46,7 @@ class ExampleController extends Chicoco\Controller
 			'date' => date('Y-m-d')
 		);
 
-		$mail = new Mail($from, $to, $subject, $content, $data);
+		$mail = new Chicoco\Mail($from, $to, $subject, $content, $data);
 		$result = $mail->sendHtml();
 
 		if ($result === true) {

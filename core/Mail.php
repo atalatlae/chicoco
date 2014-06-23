@@ -1,5 +1,7 @@
 <?php
 
+namespace Chicoco;
+
 class Mail
 {
 	private $_from;
