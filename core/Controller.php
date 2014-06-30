@@ -45,7 +45,7 @@ class Controller
 		}
 		else {
 			$k = array_search($name, $this->_pathParams);
-			if ($k !== false) {
+			if ($k !== false && isset($this->_pathParams[$k+1])) {
 				return $this->_pathParams[$k+1];
 			}
 			else {
