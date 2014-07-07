@@ -39,14 +39,14 @@ class Controller
 		return $this;
 	}
 
-	public function getPathParams($name = '') {
+	public function getPathParams($name = '', $type = 'string') {
 		if ($name == '') {
 			return $this->_pathParams;
 		}
 		else {
 			$k = array_search($name, $this->_pathParams);
 			if ($k !== false && isset($this->_pathParams[$k+1])) {
-				return $this->_pathParams[$k+1];
+				return $this->saniticeVar($this->_pathParams[$k+1], $type);
 			}
 			else {
 				return NULL;
