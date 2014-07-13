@@ -22,7 +22,7 @@ class Init
 			include_once("model/".$className.".php");
 		}
 		else {
-			// throw new Exception("Unable to load class $className.");
+			throw new \Exception("Unable to load class $className.");
 		}
 	}
 }
