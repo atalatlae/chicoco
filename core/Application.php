@@ -14,30 +14,37 @@ class Application
 	private $_pathParams = array();
 
 	public function __construct() {
-		$this->loadConfig();
+		try {
+			$this->loadConfig();
 
-		$this->_uriParts = parse_url($_SERVER['REQUEST_URI']);
-		$this->_path = explode('/', $this->_uriParts['path']);
+			$this->_uriParts = parse_url($_SERVER['REQUEST_URI']);
+			$this->_path = explode('/', $this->_uriParts['path']);
 
-		if (isset($this->_path[1]) && $this->_path[1] != '') {
-			$this->_controller = $this->_path[1].'Controller';
-		}
-		else {
-			$this->_controller = 'IndexController';
-		}
-
-		if (isset($this->_path[2]) && $this->_path[2] != '') {
-			$this->_action = $this->_path[2];
-		}
-		else {
-			$this->_action = 'Index';
-		}
-
-		if (count($this->_path) > 3) {
-			$c = count($this->_path);
-			for ($i=3; $i < $c ; $i++) {
-				$this->_pathParams[] = $this->_path[$i];
+			if (isset($this->_path[1]) && $this->_path[1] != '') {
+				$this->_controller = $this->_path[1].'Controller';
 			}
+			else {
+				$this->_controller = 'IndexController';
+			}
+
+			if (isset($this->_path[2]) && $this->_path[2] != '') {
+				$this->_action = $this->_path[2];
+			}
+			else {
+				$this->_action = 'Index';
+			}
+
+			if (count($this->_path) > 3) {
+				$c = count($this->_path);
+				for ($i=3; $i < $c ; $i++) {
+					$this->_pathParams[] = $this->_path[$i];
+				}
+			}
+		}
+		catch(\Exception $e) {
+			header("HTTP/1.0 500 Error found");
+			include('layout/500.phtml');
+			exit();
 		}
 	}
 
@@ -61,18 +68,22 @@ class Application
 			$c->setPathParams($this->_pathParams);
 
 			$c->init();
-			$c->{$this->_action.'Action'}();
+			if (!$c->{$this->_action.'Action'}()) {
+				throw new Exception('Unable to execute the action "'.$this->_action.'"');
+			};
 		}
 		catch (\Exception $e) {
-			header("HTTP/1.0 404 Not Found");
-			include('layout/404.phtml');
+			header("HTTP/1.0 500 Error found");
+			include('layout/500.phtml');
 			return false;
 		}
 	}
 
 	private function loadConfig() {
 		$this->_config = array();
-		$config = parse_ini_file('conf/Application.ini', true);
+		if (!($config = @parse_ini_file('conf/Application.ini', true))) {
+			throw new \Exception("unable to load configuration file");
+		}
 
 		if (is_array($config)) {
 			// Get the general conf
@@ -96,7 +107,6 @@ class Application
 					$this->_config[$k] = $v;
 				}
 			}
-
 		}
 	}
 
