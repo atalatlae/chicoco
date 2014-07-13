@@ -29,7 +29,7 @@ class Dao extends DataBase
 	public function doSelect() {
 		try {
 			$stmt = $this->_db->prepare($this->_sql);
-			$this->_setParams($stmt); 
+			$this->_setParams($stmt);
 			$query = $stmt->execute();
 
 			if ($query !== true) {
@@ -46,30 +46,16 @@ class Dao extends DataBase
 	}
 
 	public function doInsert() {
-		return $this->doUpdate();
+		return $this->_doWrite();
 	}
 
 	public function doUpdate() {
-		try {
-			$stmt = $this->_db->prepare($this->_sql);
-			$this->_setParams($stmt); 
-			$query = $stmt->execute();
-
-			if ($query !== true) {
-				$error = $stmt->errorInfo();
-				throw new \Exception('Dao: '.var_export($error, true));
-			}
-			return true;
-		}
-		catch (\Exception $e) {
-			$this->msgResult = $e->getMessage();
-			return false;
-		}
+		return $this->_doWrite();
 	}
 
 	public function addParam($key = '', $value = '', $type = PDO::PARAM_STR) {
 		// TODO: Fix here when the value == 0 and 0 is a valid value !!!
-		// if ($key != '' && $value != '' && $type != '') 
+		// if ($key != '' && $value != '' && $type != '')
 		{
 			$this->_params[] = array(
 				'key'   => $key,
@@ -91,6 +77,7 @@ class Dao extends DataBase
 	}
 
 	/*** ***/
+
 	protected function _setParams($stmt) {
 		if (is_array($this->_params) && count($this->_params) > 0 ) {
 			foreach ($this->_params as $p) {
@@ -101,6 +88,24 @@ class Dao extends DataBase
 
 				$stmt->bindParam($p['key'], $p['value'], $p['type']);
 			}
+		}
+	}
+
+	private function _doWrite() {
+		try {
+			$stmt = $this->_db->prepare($this->_sql);
+			$this->_setParams($stmt);
+			$query = $stmt->execute();
+
+			if ($query !== true) {
+				$error = $stmt->errorInfo();
+				throw new \Exception('Dao: '.var_export($error, true));
+			}
+			return true;
+		}
+		catch (\Exception $e) {
+			$this->msgResult = $e->getMessage();
+			return false;
 		}
 	}
 }
