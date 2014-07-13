@@ -19,20 +19,19 @@ class LogDb extends Log
 		$level = $this->_logLevel;
 
 		try {
-			$sql = 'INSERT INTO logs '
-			.'(timestamp, level, message, controller, action) VALUES '
-			.'(NOW(), :level, :message, :controller, :action)';
-
 			$l = $this->_levels["$level"];
 
-			$params = array(
-				array('key' => ':level',      'value' => $l,          'type' => \PDO::PARAM_STR),
-				array('key' => ':message',    'value' => $message,    'type' => \PDO::PARAM_STR),
-				array('key' => ':controller', 'value' => $controller, 'type' => \PDO::PARAM_STR),
-				array('key' => ':action',     'value' => $action,     'type' => \PDO::PARAM_STR),
-			);
+			$this->_db->setSql('INSERT INTO logs '
+			.'(timestamp, level, message, controller, action) VALUES '
+			.'(NOW(), :level, :message, :controller, :action)');
+			$this->_db->clearParams();
+			$this->_db->addParam(':level',      $l,         \PDO::PARAM_STR);
+			$this->_db->addParam(':message',    $message,   \PDO::PARAM_STR);
+			$this->_db->addParam(':controller', $controller,\PDO::PARAM_STR);
+			$this->_db->addParam(':action',     $action,    \PDO::PARAM_STR);
 
-			$query = $this->_db->doSelect($sql, $params);
+			$this->_db->doInsert();
+			$query = $this->_db->getResult();
 
 			if ($query === false) {
 				$error = $this->_db->getMsgResult();
