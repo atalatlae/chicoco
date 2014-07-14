@@ -21,10 +21,10 @@ class Application
 			$this->_path = explode('/', $this->_uriParts['path']);
 
 			if (isset($this->_path[1]) && $this->_path[1] != '') {
-				$this->_controller = $this->_path[1].'Controller';
+				$this->_controller = $this->_path[1];
 			}
 			else {
-				$this->_controller = 'IndexController';
+				$this->_controller = 'Index';
 			}
 
 			if (isset($this->_path[2]) && $this->_path[2] != '') {
@@ -55,22 +55,36 @@ class Application
 		return self::$_instance;
 	}
 
+	private function _checkAlias($controller, $action) {
+		if (isset($this->_config['Aliases'])) {
+			$aliases = $this->_config['Aliases'];
+			$key = "$controller/$action";
+
+			if (isset($aliases[$key])) {
+				list($this->_controller, $this->_action) = explode("/", $aliases[$key]);
+			}
+		}
+	}
+
 	public function run() {
 		try {
-			$c = new $this->_controller;
+			$this->_checkAlias($this->_controller, $this->_action);
 
-			if ( !($c instanceof Controller)) {
+			$controller = $this->_controller.'Controller';
+			$c = new $controller;
+
+			if (!($c instanceof Controller)) {
 				throw new \Exception('Unable to load class '.$this->_controller);
 			}
 
 			$c->setController($this->_controller);
 			$c->setAction($this->_action);
 			$c->setPathParams($this->_pathParams);
-
 			$c->init();
+
 			if (!$c->{$this->_action.'Action'}()) {
 				throw new Exception('Unable to execute the action "'.$this->_action.'"');
-			};
+			}
 		}
 		catch (\Exception $e) {
 			header("HTTP/1.0 500 Error found");
@@ -105,6 +119,14 @@ class Application
 			if (isset($config['Common']) && is_array($config['Common'])) {
 				foreach ($config['Common'] as $k => $v) {
 					$this->_config[$k] = $v;
+				}
+			}
+
+			// Get the aliases conf
+			if (isset($config['Aliases']) && is_array($config['Aliases'])) {
+				$this->_config['Aliases'] = array();
+				foreach ($config['Aliases'] as $k => $v) {
+					$this->_config['Aliases'][$k] = $v;
 				}
 			}
 		}
