@@ -99,4 +99,8 @@ class ExampleController extends Chicoco\Controller
 		$this->setViewVar('foo', $foo);
 		$this->render();
 	}
+
+	public function AliasAction() {
+		$this->render();
+	}
 }
