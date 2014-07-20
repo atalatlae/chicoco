@@ -55,10 +55,10 @@ class Application
 		return self::$_instance;
 	}
 
-	private function _checkAlias($controller, $action) {
+	private function _checkAlias() {
 		if (isset($this->_config['Aliases'])) {
 			$aliases = $this->_config['Aliases'];
-			$key = "$controller/$action";
+			$key = $this->_uriParts['path'];
 
 			if (isset($aliases[$key])) {
 				list($this->_controller, $this->_action) = explode("/", $aliases[$key]);
@@ -68,7 +68,7 @@ class Application
 
 	public function run() {
 		try {
-			$this->_checkAlias($this->_controller, $this->_action);
+			$this->_checkAlias();
 
 			$controller = $this->_controller.'Controller';
 			$c = new $controller;
