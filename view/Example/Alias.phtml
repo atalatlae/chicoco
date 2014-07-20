@@ -1,10 +1,12 @@
 <h2>Example: Using Aliases</h2>
 
-<p>This example show how work the aliases</p>
+<p>This example show how aliases work</p>
 
 <div><a href="/Hello/World">Alias 1: /Hello/World</a></div>
 <div><a href="/Foo/Var">Alias 2: /Foo/Var</a></div>
 <div><a href="/camel/Case">Alias 3: /camel/Case/</a></div>
+<div><a href="/hello-world.html">Alias 4: /hello-world.html</a></div>
+<div><a href="/hello-world.html?a=111&b=222&c=333">Alias 5: /hello-world.html?a=111&b=222&c=333</a></div>
 
 <h2>The Code</h2>
 <h3>controller/ExampleController.php</h3>
@@ -29,7 +31,8 @@ class ExampleController extends Chicoco\Controller
 <h3>conf/Application.conf</h3>
 <pre>
 [Aliases]
-Hello/World = Example/Alias
-Foo/Var = Example/Alias
-camel/Case = Example/Alias
+/Hello/World = Example/Alias
+/Foo/Var = Example/Alias
+/camel/Case = Example/Alias
+/hello-world.html = Example/Alias
 </pre>
