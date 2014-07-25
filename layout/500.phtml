@@ -10,6 +10,7 @@
 		echo "<pre># $k ";
 
 		echo (isset($t['file']))?" - ".$t['file']:'';
+		echo (isset($t['line']))?" (line: ".$t['line'].")":'';
 		echo (isset($t['class']))?" - ".$t['class']:'';
 		echo (isset($t['function']))?"->".$t['function']."()":'';
 

@@ -82,9 +82,11 @@ class Application
 			$c->setPathParams($this->_pathParams);
 			$c->init();
 
-			if (!$c->{$this->_action.'Action'}()) {
-				throw new Exception('Unable to execute the action "'.$this->_action.'"');
+			if (!method_exists($c, $this->_action.'Action')) {
+				throw new \Exception('Unable to execute the action "'.$this->_action.'"');
 			}
+
+			$c->{$this->_action.'Action'}();
 		}
 		catch (\Exception $e) {
 			header("HTTP/1.0 500 Error found");
