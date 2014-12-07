@@ -14,7 +14,13 @@ Basically, because the current fast frameworks are very difficult to understand 
 * Separate the "business logic", database access and display (MVC)
 * Easy to use for shell scripting
 * Full object oriented
-* Soon more stuffs
+* Sanitization of external variables by default (Get, Post, Request)
+* Nice database abstraction based on PDO
+* HTML Email class
+* Log class (through syslog and database)
+* Session class
+* Aliases
+* And more ...
 
 ##Structure
 
