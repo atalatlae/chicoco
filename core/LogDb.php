@@ -41,7 +41,7 @@ class LogDb extends Log
 			return true;
 		}
 		catch (\Exception $e) {
-			$this->msgResult = $e->getMessage();
+			$this->_msgResult = $e->getMessage();
 			return false;
 		}
 	}
