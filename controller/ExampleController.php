@@ -103,4 +103,10 @@ class ExampleController extends Chicoco\Controller
 	public function AliasAction() {
 		$this->render();
 	}
+
+	public function ChicocoGlobalAction() {
+		global $_CHICOCO;
+		$this->setViewVar('_CHICOCO', $_CHICOCO);
+		$this->render();
+	}
 }
