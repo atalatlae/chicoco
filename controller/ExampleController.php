@@ -109,4 +109,10 @@ class ExampleController extends Chicoco\Controller
 		$this->setViewVar('pathParams', $pathParams);
 		$this->render();
 	}
+
+	public function ChicocoGlobalAction() {
+		global $_CHICOCO;
+		$this->setViewVar('_CHICOCO', $_CHICOCO);
+		$this->render();
+	}
 }
