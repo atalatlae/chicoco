@@ -46,7 +46,7 @@ class Controller
 		else {
 			$k = array_search($name, $this->_pathParams);
 			if ($k !== false && isset($this->_pathParams[$k+1])) {
-				return $this->saniticeVar($this->_pathParams[$k+1], $type);
+				return $this->sanitizeVar($this->_pathParams[$k+1], $type);
 			}
 			else {
 				return NULL;
@@ -139,17 +139,17 @@ class Controller
 		switch ($from) {
 			case 'get':
 				if (isset($_GET[$name])) {
-					return $this->saniticeVar($_GET[$name], $type);
+					return $this->sanitizeVar($_GET[$name], $type);
 				}
 				break;
 			case 'post':
 				if (isset($_POST[$name])) {
-					return $this->saniticeVar($_POST[$name], $type);
+					return $this->sanitizeVar($_POST[$name], $type);
 				}
 				break;
 			case 'request':
 				if (isset($_REQUEST[$name])) {
-					return $this->saniticeVar($_REQUEST[$name], $type);
+					return $this->sanitizeVar($_REQUEST[$name], $type);
 				}
 				break;
 			case 'file':
@@ -164,7 +164,7 @@ class Controller
 		return null;
 	}
 
-	private function saniticeVar($var = null, $type = "")
+	private function sanitizeVar($var = null, $type = "")
 	{
 		$filters = array(
 			"string" => FILTER_SANITIZE_STRING,
