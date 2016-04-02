@@ -103,4 +103,10 @@ class ExampleController extends Chicoco\Controller
 	public function AliasAction() {
 		$this->render();
 	}
+
+	public function PathParamsAction() {
+		$pathParams = $this->getPathParams();
+		$this->setViewVar('pathParams', $pathParams);
+		$this->render();
+	}
 }

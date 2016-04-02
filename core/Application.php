@@ -12,6 +12,7 @@ class Application
 	private $_path ='';
 	private $_config;
 	private $_pathParams = array();
+	private $_alias = '';
 
 	public function __construct() {
 		try {
@@ -33,13 +34,6 @@ class Application
 			else {
 				$this->_action = 'Index';
 			}
-
-			if (count($this->_path) > 3) {
-				$c = count($this->_path);
-				for ($i=3; $i < $c ; $i++) {
-					$this->_pathParams[] = $this->_path[$i];
-				}
-			}
 		}
 		catch(\Exception $e) {
 			header("HTTP/1.0 500 Error found");
@@ -60,10 +54,48 @@ class Application
 			$aliases = $this->_config['Aliases'];
 			$key = $this->_uriParts['path'];
 
-			if (isset($aliases[$key])) {
-				list($this->_controller, $this->_action) = explode("/", $aliases[$key]);
+			foreach ($aliases as $k => $v) {
+				$patern = '+^'.$k.'+';
+				$r = preg_match($patern, $key);
+				if ($r === 1) {
+					$this->_alias = $k;
+					list($this->_controller, $this->_action) = explode("/", $v);
+					break;
+				}
 			}
 		}
+	}
+
+	private function _parcePathParams() {
+		$path = $this->_uriParts['path'];
+
+		if ($this->_alias != '') {
+			$path = substr_replace($path, '', 0, strlen($this->_alias));
+		}
+		else {
+			$path = substr_replace($path, '', 0, strlen('/'.$this->_controller.'/'.$this->_action));
+		}
+
+		$path = preg_replace('+^/+', '', $path);
+		$pathParts = explode('/', $path);
+		$pathParams = array();
+
+		if (count($pathParts) >= 1) {
+			for ($i = 0; $i < count($pathParts); $i++) {
+				if ($pathParts[$i] == '') {
+					continue;
+				}
+
+				if (isset($pathParts[$i + 1])) {
+					$pathParams[$pathParts[$i]] = $pathParts[$i+1];
+					$i++;
+				}
+				else {
+					$pathParams[$pathParts[$i]] = null;
+				}
+			}
+		}
+		$this->_pathParams = $pathParams;
 	}
 
 	public function run() {
@@ -79,6 +111,9 @@ class Application
 
 			$c->setController($this->_controller);
 			$c->setAction($this->_action);
+
+			$this->_parcePathParams();
+
 			$c->setPathParams($this->_pathParams);
 			$c->init();
 
