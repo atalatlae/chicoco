@@ -1,0 +1,46 @@
+<h2>Example: Path Parameters</h2>
+
+<p>This example show how works path parameters</p>
+
+<div><a href="/Example/PathParams/foo/1/var/2">with two parameters</a></div>
+<div><a href="/pathparam/foo/A/var/B">with an alias</a></div>
+
+<?php
+if (isset($pathParams)) {
+	foreach($pathParams as $k => $v) {
+		echo "<p><strong>name</strong>:$k, <strong>value</strong>: $v</p>";
+	}
+}
+?>
+<h2>The Code</h2>
+<h3>controller/ExampleController.php</h3>
+<pre>
+&lt;?php
+
+class ExampleController extends Chicoco\Controller
+{
+	public function PathParamsAction() {
+		$pathParams = $this-&gt;getPathParams();
+		$this-&gt;setViewVar('pathParams', $pathParams);
+		$this-&gt;render();
+	}
+}
+</pre>
+
+<h3>view/Example/PathParams.phtml</h3>
+<pre>
+&lt;h2&gt;Example: Path Parameters&lt;/h2&gt;
+
+&lt;p&gt;This example show how works path parameters&lt;/p&gt;
+
+&lt;div&gt;&lt;a href="/Example/PathParams/foo/1/var/2"&gt;with two parameters&lt;/a&gt;&lt;/div&gt;
+&lt;div&gt;&lt;a href="/pathparam/foo/FooValue/var/VarValue"&gt;with an alias&lt;/a&gt;&lt;/div&gt;
+
+&lt;?php
+if (isset($pathParams)) {
+	foreach($pathParams as $k =&gt; $v) {
+		echo "&lt;p&gt;&lt;strong&gt;name&lt;/strong&gt;:$k, &lt;strong&gt;value&lt;/strong&gt;: $v&lt;/p&gt;";
+	}
+}
+?&gt;
+</pre>

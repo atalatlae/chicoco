@@ -56,9 +56,16 @@ class Application
 
 			$this->_addToGlobal('ALIAS', '');
 
-			if (isset($aliases[$key])) {
-				$this->_addToGlobal('ALIAS', $key);
-				list($this->_controller, $this->_action) = explode("/", $aliases[$key]);
+			foreach ($aliases as $k => $v) {
+				$this->_addToGlobal('ALIAS', $k);
+
+				$patern = '$^'.$k.'$';
+				$r = preg_match($patern, $key);
+				if ($r === 1) {
+					$this->_alias = $k;
+					list($this->_controller, $this->_action) = explode("/", $v);
+					break;
+				}
 			}
 		}
 	}
