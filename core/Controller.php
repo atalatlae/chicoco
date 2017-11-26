@@ -44,9 +44,8 @@ class Controller
 			return $this->_pathParams;
 		}
 		else {
-			$k = array_search($name, $this->_pathParams);
-			if ($k !== false && isset($this->_pathParams[$k+1])) {
-				return $this->sanitizeVar($this->_pathParams[$k+1], $type);
+			if (array_key_exists($name, $this->_pathParams)) {
+				return $this->sanitizeVar($this->_pathParams[$name], $type);
 			}
 			else {
 				return NULL;
