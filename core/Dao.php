@@ -14,6 +14,22 @@ class Dao extends DataBase
 		$this->_db = $this->getInstance();
 	}
 
+	public function inTransaction() {
+		return $this->_db->inTransaction();
+	}
+
+	public function begin() {
+		$this->_db->beginTransaction();
+	}
+
+	public function commit() {
+		$this->_db->commit();
+	}
+
+	public function rollback() {
+		$this->_db->rollback();
+	}
+
 	public function setSql($sql) {
 		$this->_sql = $sql;
 	}

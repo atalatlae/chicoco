@@ -1,0 +1,88 @@
+<h2>Example: Database Transaction</h2>
+<table border="1">
+<tr>
+	<td>Username</td>
+	<td>Host</td>
+  <td>Last Access</td>
+</tr>
+<?php
+foreach ($result as $r) {
+	echo '<tr>'
+	.'<td>'.$r['user'].'</td>'
+	.'<td>'.$r['host'].'</td>'
+  .'<td>'.$r['last_access'].'</td>'
+	.'</tr>';
+}
+?>
+</table>
+<h2>The Code</h2>
+<h3>controller/ExampleController.php</h3>
+<pre>
+&lt;?php
+
+class ExampleController extends Chicoco\Controller
+{
+    public function init() {
+    }
+
+    public function DBTransactionAction() {
+        $userDao = new UserDao();
+        $userDao-&gt;updateLasAccess('user');
+
+        $result = $userDao-&gt;getUserByLogin('user');
+        $this-&gt;setViewVar('result', $result);
+
+        $this-&gt;render();
+    }
+}
+</pre>
+<h2>model/UserDao.php</h2>
+<pre>
+&lt;?php
+
+class UserDao extends Chicoco\Dao
+{
+    public function updateLasAccess($user) {
+        try {
+            $this->begin();
+            $this->setSql('UPDATE user SET last_access = NOW() WHERE user = :user');
+            $this->clearParams();
+            $this->addParam(':user', $user, PDO::PARAM_STR);
+
+            $result = $this->doUpdate();
+
+            if ($result !== true) {
+                throw new Exception('Transaction Error');
+            }
+            $this->commit();
+            return true;
+        }
+        catch (Exceptio $e) {
+            $this->rollback();
+            $this->msgResult = $e->getMessage();
+            return false;
+        }
+    }
+}
+
+</pre>
+<h3>view/Example/DBTransaction.phtml</h3>
+<pre>
+&lt;h2>Example: Database Transaction&lt;/h2>
+&lt;table border="1">
+&lt;tr>
+    &lt;td>Username&lt;/td>
+    &lt;td>Host&lt;/td>
+    &lt;td>Last Access&lt;/td>
+&lt;/tr>
+&lt;?php
+foreach ($result as $r) {
+    echo '&lt;tr>'
+    .'&lt;td>'.$r['user'].'&lt;/td>'
+    .'&lt;td>'.$r['host'].'&lt;/td>'
+    .'&lt;td>'.$r['last_access'].'&lt;/td>'
+    .'&lt;/tr>';
+}
+?>
+&lt;/table>
+</pre>
