@@ -4,7 +4,7 @@ namespace Chicoco;
 
 class DataBase extends \PDO
 {
-    protected static $_instance;
+    protected static $instance;
     protected $engine;
     protected $host;
     protected $port;
@@ -27,17 +27,17 @@ class DataBase extends \PDO
         try {
             $dsn = $this->engine.":dbname=".$this->dbname."; host=".$this->host."; port=".$this->port;
             parent::__construct($dsn, $this->username, $this->pass);
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             throw new \Exception('Database: error when try to connect: '.$e->getMessage());
             return false;
         }
     }
 
-    public static function getInstance() {
-        if (  !self::$_instance instanceof self) {
-            self::$_instance = new self;
+    public static function getInstance()
+    {
+        if (!self::$instance instanceof self) {
+            self::$instance = new self;
         }
-        return self::$_instance;
+        return self::$instance;
     }
 }
