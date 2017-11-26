@@ -54,16 +54,13 @@ class Application
 			$aliases = $this->_config['Aliases'];
 			$key = $this->_uriParts['path'];
 
-			$this->_addToGlobal('ALIAS', '');
-
 			foreach ($aliases as $k => $v) {
-				$this->_addToGlobal('ALIAS', $k);
-
 				$patern = '$^'.$k.'$';
 				$r = preg_match($patern, $key);
 				if ($r === 1) {
 					$this->_alias = $k;
 					list($this->_controller, $this->_action) = explode("/", $v);
+					$this->_addToGlobal('ALIAS', $k);
 					break;
 				}
 			}
