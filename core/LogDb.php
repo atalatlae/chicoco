@@ -2,6 +2,8 @@
 
 namespace Chicoco;
 
+use Chicoco\Log;
+
 class LogDb extends Log
 {
     private $db;
@@ -18,7 +20,7 @@ class LogDb extends Log
 
     protected function write($message = '', $controller = '', $action = '')
     {
-        $level = $this->_logLevel;
+        $level = $this->logLevel;
 
         try {
             $l = $this->levels["$level"];
@@ -33,9 +35,9 @@ class LogDb extends Log
             $this->db->addParam(':action', $action, \PDO::PARAM_STR);
 
             $this->db->doInsert();
-            $query = $this->db->getResult();
+            $result = $this->db->getResult();
 
-            if ($query === false) {
+            if ($result === false) {
                 $error = $this->db->getMsgResult();
                 throw new \Exception('Log: '.var_export($error, true));
             }
