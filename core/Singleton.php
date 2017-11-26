@@ -4,21 +4,21 @@ namespace Chicoco;
 
 class Singleton
 {
-	protected static $_instance;
+    protected static $_instance;
 
-	private function __construct(){
-	}
+    private function __construct(){
+    }
 
-	public static function getInstance() {
-		$calledClass = get_called_class();
+    public static function getInstance() {
+        $calledClass = get_called_class();
 
-		if (  !self::$_instance instanceof $calledClass) {
-			self::$_instance = new $calledClass;
-		}
-		return self::$_instance;
-	}
+        if (  !self::$_instance instanceof $calledClass) {
+            self::$_instance = new $calledClass;
+        }
+        return self::$_instance;
+    }
 
-	public function __clone() {
-		trigger_error('Clone is not allowed', E_USER_ERROR);
-	}
+    public function __clone() {
+        trigger_error('Clone is not allowed', E_USER_ERROR);
+    }
 }
