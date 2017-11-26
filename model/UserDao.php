@@ -13,7 +13,7 @@ class UserDao extends Chicoco\Dao
 			$this->addParam(':user', $user, PDO::PARAM_STR);
 			$this->doSelect();
 
-			return $this->_result;
+			return $this->result;
 		}
 		catch (Exception $e) {
 			$this->msgResult = $e->getMessage();

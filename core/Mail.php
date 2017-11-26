@@ -4,72 +4,73 @@ namespace Chicoco;
 
 class Mail
 {
-	private $_from;
-	private $_to;
-	private $_subject;
-	private $_content;
-	private $_data;
-	private $_layout;
+    private $from;
+    private $to;
+    private $subject;
+    private $content;
+    private $data;
+    private $layout;
+    private $message;
 
-	private $_message;
+    public function __construct($from, $to, $subject, $content, array $data, $layout = 'mail')
+    {
+        $this->from = $from;
+        $this->to = $to;
+        $this->subject = $subject;
+        $this->content = $content;
+        $this->data = $data;
+        $this->layout = $layout;
 
-	public function __construct($from = '', $to = '', $subject = '', $content = '', array $data, $layout = 'mail') {
-		$this->_from = $from;
-		$this->_to = $to;
-		$this->_subject = $subject;
-		$this->_content = $content;
-		$this->_data = $data;
-		$this->_layout = $layout;
+        $this->render();
+    }
 
-		$this->_render();
-	}
+    public function sendHtml()
+    {
+        $headers = "From: ".$this->from."\r\n"
+        ."MIME-Version: 1.0\r\n"
+        ."Content-Type: text/html; charset=utf-8\r\n";
 
-	public function sendHtml() {
-		$headers = "From: ".$this->_from."\r\n"
-		."MIME-Version: 1.0\r\n"
-		."Content-Type: text/html; charset=utf-8\r\n";
+        return $this->send($headers);
+    }
 
-		return $this->_send($headers);
-	}
+    private function send($headers = '')
+    {
+        return mail($this->to, $this->subject, $this->message, $headers);
+    }
 
-	private function _send($headers = '') {
-		return mail($this->_to, $this->_subject, $this->_message, $headers);
-	}
+    private function render()
+    {
+        if ($this->layout != '' && !is_file('layout/'.$this->layout.'.phtml')) {
+            return false;
+        } elseif ($this->layout == '') {
+            $this->layout = 'mail';
+        }
 
-	private function _render() {
-		if ($this->_layout != '' && !is_file('layout/'.$this->_layout.'.phtml')) {
-			return false;
-		}
-		else if ($this->_layout == '') {
-			$this->_layout = 'mail';
-		}
+        if ($this->content != '' && !is_file('view/'.$this->content)) {
+            return false;
+        }
 
-		if ($this->_content != '' && !is_file('view/'.$this->_content)) {
-			return false;
-		}
+        // Put the variables visible to the included file
+        if (is_array($this->data)) {
+            foreach ($this->data as $k => $v) {
+                ${$k}  = $v;
+            }
+        }
 
-		// Put the variables visible to the included file
-		if (is_array($this->_data)) {
-			foreach($this->_data as $k => $v) {
-				${$k}  = $v;
-			}
-		}
+        if ($this->content != '') {
+            ob_start();
+            include('view/'.$this->content);
+            $content = ob_get_contents();
+            ob_end_clean();
+        } else {
+            $content = '';
+        }
 
-		if ($this->_content != '') {
-			ob_start();
-			include('view/'.$this->_content);
-			$content = ob_get_contents();
-			ob_end_clean();
-		}
-		else {
-			$content = '';
-		}
+        ob_start();
+        include('layout/'.$this->layout.'.phtml');
+        $this->message = ob_get_contents();
+        ob_end_clean();
 
-		ob_start();
-		include ('layout/'.$this->_layout.'.phtml');
-		$this->_message = ob_get_contents();
-		ob_end_clean();
-
-		return true;
-	}
+        return true;
+    }
 }
