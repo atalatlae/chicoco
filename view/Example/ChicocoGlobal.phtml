@@ -1,0 +1,39 @@
+<h2>Example: Chicoco Global</h2>
+<p>This is the content of $_CHICOCO global var:</p>
+
+<pre>
+	<?php
+	var_dump($_CHICOCO);
+	?>
+</pre>
+
+<h2>The Code</h2>
+<h3>controller/ExampleController.php</h3>
+<pre>
+&lt;?php
+
+class ExampleController extends Chicoco\Controller
+{
+	public function init() {
+	}
+
+	public function ChicocGlobalAction() {
+		global $_CHICOCO;
+		$this->setViewVar('_CHICOCO', $_CHICOCO);
+		$this->render();
+	}
+}
+</pre>
+
+<h3>view/Example/ChicocoGlobal.phtml</h3>
+<pre>
+&lt;h2&gt;Example: Chicoco Global&lt;/h2&gt;
+&lt;p&gt;This is the content of $_CHICOCO global var:&lt;/p&gt;
+
+&lt;pre&gt;
+	&lt;?php
+	var_dump($_CHICOCO);
+	?&gt;
+&lt;/pre&gt;
+</pre>
+

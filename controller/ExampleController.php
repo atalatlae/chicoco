@@ -10,7 +10,7 @@ class ExampleController extends Chicoco\Controller
 	}
 
 	public function FormAction() {
-		
+
 		$send = $this->getPostVar('send', 'string');
 
 		if (isset($send) and $send != '') {
@@ -32,6 +32,16 @@ class ExampleController extends Chicoco\Controller
 		$result = $userDao->getUserByLogin('root');
 
 		$this->setViewVar('result', $result);
+		$this->render();
+	}
+
+	public function DBTransactionAction() {
+		$userDao = new UserDao();
+		$userDao->updateLasAccess('user');
+
+		$result = $userDao->getUserByLogin('user');
+		$this->setViewVar('result', $result);
+
 		$this->render();
 	}
 
@@ -107,6 +117,12 @@ class ExampleController extends Chicoco\Controller
 	public function PathParamsAction() {
 		$pathParams = $this->getPathParams();
 		$this->setViewVar('pathParams', $pathParams);
+		$this->render();
+	}
+
+	public function ChicocoGlobalAction() {
+		global $_CHICOCO;
+		$this->setViewVar('_CHICOCO', $_CHICOCO);
 		$this->render();
 	}
 }

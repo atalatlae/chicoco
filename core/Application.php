@@ -54,14 +54,11 @@ class Application
 			$aliases = $this->_config['Aliases'];
 			$key = $this->_uriParts['path'];
 
-			foreach ($aliases as $k => $v) {
-				$patern = '+^'.$k.'+';
-				$r = preg_match($patern, $key);
-				if ($r === 1) {
-					$this->_alias = $k;
-					list($this->_controller, $this->_action) = explode("/", $v);
-					break;
-				}
+			$this->_addToGlobal('ALIAS', '');
+
+			if (isset($aliases[$key])) {
+				$this->_addToGlobal('ALIAS', $key);
+				list($this->_controller, $this->_action) = explode("/", $aliases[$key]);
 			}
 		}
 	}
@@ -121,6 +118,10 @@ class Application
 				throw new \Exception('Unable to execute the action "'.$this->_action.'"');
 			}
 
+			$this->_addToGlobal('CONTROLLER', $this->_controller);
+			$this->_addToGlobal('ACTION', $this->_action);
+			$this->_addToGlobal('PATH_PARAMS', $this->_pathParams);
+
 			$c->{$this->_action.'Action'}();
 		}
 		catch (\Exception $e) {
@@ -166,6 +167,7 @@ class Application
 					$this->_config['Aliases'][$k] = $v;
 				}
 			}
+			$this->_addToGlobal('CONF', $this->_config);
 		}
 	}
 
@@ -173,6 +175,13 @@ class Application
 		return $this->_config;
 	}
 
-	private function _sanitizeUriPart() {
+	private function _addToGlobal($key, $value) {
+		global $_CHICOCO;
+
+		if (!isset($_CHICOCO)) {
+			$_CHICOCO = array();
+		}
+
+		$_CHICOCO[$key] = $value;
 	}
 }
