@@ -4,7 +4,8 @@ namespace Chicoco;
 
 class Init
 {
-    function __construct() {
+    public function __construct()
+    {
         spl_autoload_register(array($this, "autoLoadClass"));
     }
 
@@ -14,14 +15,11 @@ class Init
 
         if (is_file("core/".$className.".php")) {
             include_once("core/".$className.".php");
-        }
-        else if (is_file("controller/".$className.".php")) {
+        } elseif (is_file("controller/".$className.".php")) {
             include_once("controller/".$className.".php");
-        }
-        elseif (is_file("model/".$className.".php")) {
+        } elseif (is_file("model/".$className.".php")) {
             include_once("model/".$className.".php");
-        }
-        else {
+        } else {
             throw new \Exception("Unable to load class $className.");
         }
     }
