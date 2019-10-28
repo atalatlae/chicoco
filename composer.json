@@ -1,0 +1,17 @@
+{
+    "name": "atalatlae/chicoco",
+    "license": "GNU",
+    "description": "Small PHP framwork",
+    "homepage": "https://github.com/atalatlae/chicoco",
+    "authors": [
+        {
+            "name": "Boris Cruchet"
+        }
+    ],
+
+    "autoload": {
+        "psr-4": {
+            "Chicoco\\": "src/Chicoco/"
+        }
+    }
+}

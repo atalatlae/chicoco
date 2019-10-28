@@ -1,12 +1,27 @@
 <?php
 
-namespace Chicoco;
-
 chdir(dirname(__DIR__));
 
-require_once("core/Init.php");
+include_once('vendor/autoload.php');
 
-$init = new Init();
+use Chicoco\Core\Application;
 
-$app = Application::getInstance();
+use Chicoco\Core\Conf;
+use Chicoco\Http\Router;
+use Chicoco\Http\HttpRequest;
+use Chicoco\Http\HttpController;
+
+/* Request */
+$r = new HttpRequest();
+
+/* Controller */
+$c1 = new HttpController($r);
+
+/* Router */
+$router = new Router($r);
+$router->get('/', function() { echo "HW"; } );
+$router->get('/Controller', [$c1, 'run']);
+
+$app = new Application($router);
 $app->run();
+
