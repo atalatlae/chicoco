@@ -16,29 +16,35 @@ class Router implements Handler
     private $actions;
     private $basePath;
 
-    public function __construct(Request $r, $basePath = '') {
+    public function __construct(Request $r, $basePath = '')
+    {
         $this->request = $r;
         $this->actions = [];
         $this->basePath = $basePath;
     }
 
-    public function get($path, $action) {
+    public function get($path, $action)
+    {
         $this->add('get', $path, $action);
     }
 
-    public function post($path, $action) {
+    public function post($path, $action)
+    {
         $this->add('post', $path, $action);
     }
 
-    public function delete($path, $action) {
+    public function delete($path, $action)
+    {
         $this->add('delete', $path, $action);
     }
 
-    public function put($path, $action) {
+    public function put($path, $action)
+    {
         $this->add('put', $path, $action);
     }
 
-    public function add($method, $path, $action) {
+    public function add($method, $path, $action)
+    {
         $method = strtoupper($method);
         $this->actions[$method][$path] = $action;
     }
@@ -61,28 +67,23 @@ class Router implements Handler
 
             call_user_func($action, $this->request);
             return;
-        }
-        catch (BadRequestException $e) {
+        } catch (BadRequestException $e) {
             $message = $e->getMessage();
-            header('HTTP/1.0 400 '.$message);
-        }
-        catch (NotFoundException $e) {
+            header('HTTP/1.0 400 ' . $message);
+        } catch (NotFoundException $e) {
             $message = $e->getMessage();
-            header('HTTP/1.0 404 '.$message);
-        }
-        catch (NotImplementedException $e) {
+            header('HTTP/1.0 404 ' . $message);
+        } catch (NotImplementedException $e) {
             $message = $e->getMessage();
-            header('HTTP/1.0 501 '.$message);
-        }
-        catch (InternalErrorException $e) {
+            header('HTTP/1.0 501 ' . $message);
+        } catch (InternalErrorException $e) {
             $message = $e->getMessage();
-            header('HTTP/1.0 500 '.$message);
+            header('HTTP/1.0 500 ' . $message);
         }
 
         header('Content-Type: application/json');
         echo json_encode([
-            'status' => 'error', 'message' => $message]
-        );
+            'status' => 'error', 'message' => $message
+        ]);
     }
 }
-

@@ -12,7 +12,7 @@ use Chicoco\DataBase\Exceptions\DaoException;
 class Dao
 {
     protected $db;
-    protected $msgResult = "";
+    protected $msgResult = '';
     protected $sql;
     protected $stmt;
     protected $params;
@@ -55,15 +55,18 @@ class Dao
         }
     }
 
-    public function enableTransaction() {
+    public function enableTransaction()
+    {
         $this->transactionEnabled = true;
     }
 
-    public function disableTransaction() {
+    public function disableTransaction()
+    {
         $this->transactionEnabled = false;
     }
 
-    public function getLastId() {
+    public function getLastId()
+    {
         return $this->db->lastInsertId();
     }
 
@@ -72,9 +75,9 @@ class Dao
         $this->sql = $sql;
     }
 
-    public function getResult($fetchAs = 'assoc', $class = NULL)
+    public function getResult($fetchAs = 'assoc', $class = null)
     {
-        switch($fetchAs) {
+        switch ($fetchAs) {
             case 'class':
                 $result = $this->stmt->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $class);
                 break;
@@ -89,9 +92,9 @@ class Dao
         return $result;
     }
 
-    public function getRow($fetchAs = 'assoc', $class = NULL)
+    public function getRow($fetchAs = 'assoc', $class = null)
     {
-        switch($fetchAs) {
+        switch ($fetchAs) {
             case 'class':
                 $result = $this->stmt->fetch(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $class);
                 break;
@@ -128,12 +131,6 @@ class Dao
         }
 
         return true;
-
-        // } catch (Exception $e) {
-        //
-        //
-        //     $this->result = false;
-        // }
     }
 
     public function doInsert()
@@ -153,17 +150,11 @@ class Dao
 
     public function addParam($key = '', $value = '', $type = PDO::PARAM_STR)
     {
-        // TODO: Fix here when the value == 0 and 0 is a valid value !!!
-        // if ($key != '' && $value != '' && $type != '')
-        {
-            $this->params[] = array(
-                'key'   => $key,
-                'value' => $value,
-                'type'  => $type
-            );
-            return true;
-        }
-        return false;
+        $this->params[] = array(
+            'key'   => $key,
+            'value' => $value,
+            'type'  => $type
+        );
     }
 
     public function addParams(...$params)
@@ -173,7 +164,7 @@ class Dao
                 throw new Exception('wrong input param');
             }
 
-            $this->addParam($p[0], $p[1], $p[2]??null);
+            $this->addParam($p[0], $p[1], $p[2] ?? null);
         }
     }
 
@@ -238,7 +229,7 @@ class Dao
 
             if ($query !== true) {
                 $this->error = $stmt->errorInfo();
-                throw new Exception('Dao: '.var_export($this->error, true));
+                throw new Exception('Dao: ' . var_export($this->error, true));
             }
             return true;
         } catch (Exception $e) {
@@ -248,7 +239,8 @@ class Dao
         }
     }
 
-    public function getTotalRows() {
+    public function getTotalRows()
+    {
         $this->setSql('SELECT FOUND_ROWS() as total');
         $this->clearParams();
         $this->doSelect();

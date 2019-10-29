@@ -4,5 +4,5 @@ namespace Chicoco\Core\Interfaces;
 
 interface Request
 {
-    public function getParam(String $name);
+    public function getParam(string $name);
 }

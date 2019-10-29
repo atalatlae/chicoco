@@ -26,9 +26,9 @@ class Mail
 
     public function sendHtml()
     {
-        $headers = "From: ".$this->from."\r\n"
-        ."MIME-Version: 1.0\r\n"
-        ."Content-Type: text/html; charset=utf-8\r\n";
+        $headers = "From: " . $this->from . "\r\n"
+        . "MIME-Version: 1.0\r\n"
+        . "Content-Type: text/html; charset=utf-8\r\n";
 
         return $this->send($headers);
     }
@@ -40,13 +40,13 @@ class Mail
 
     private function render()
     {
-        if ($this->layout != '' && !is_file('layout/'.$this->layout.'.phtml')) {
+        if ($this->layout != '' && !is_file('layout/' . $this->layout . '.phtml')) {
             return false;
         } elseif ($this->layout == '') {
             $this->layout = 'mail';
         }
 
-        if ($this->content != '' && !is_file('view/'.$this->content)) {
+        if ($this->content != '' && !is_file('view/' . $this->content)) {
             return false;
         }
 
@@ -59,7 +59,7 @@ class Mail
 
         if ($this->content != '') {
             ob_start();
-            include('view/'.$this->content);
+            include('view/' . $this->content);
             $content = ob_get_contents();
             ob_end_clean();
         } else {
@@ -67,7 +67,7 @@ class Mail
         }
 
         ob_start();
-        include('layout/'.$this->layout.'.phtml');
+        include('layout/' . $this->layout . '.phtml');
         $this->message = ob_get_contents();
         ob_end_clean();
 

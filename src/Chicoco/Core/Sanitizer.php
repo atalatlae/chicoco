@@ -4,11 +4,13 @@ namespace Chicoco\Core;
 
 class Sanitizer
 {
-    public static function clear($var, $type) {
+    public static function clear($var, $type)
+    {
         return self::sanitizeVar($var, $type);
     }
 
-    private static function sanitizeVar($var = null, $type) {
+    private static function sanitizeVar($var, $type = 'string')
+    {
         $filters = array(
             'string' => FILTER_SANITIZE_STRING,
             'email' => FILTER_SANITIZE_EMAIL,
@@ -36,8 +38,8 @@ class Sanitizer
         ];
 
         $flags = [
-            'float' => FILTER_FLAG_ALLOW_FRACTION|FILTER_FLAG_ALLOW_THOUSAND,
-            'arrayFloat' => FILTER_FLAG_ALLOW_FRACTION|FILTER_FLAG_ALLOW_THOUSAND
+            'float' => FILTER_FLAG_ALLOW_FRACTION | FILTER_FLAG_ALLOW_THOUSAND,
+            'arrayFloat' => FILTER_FLAG_ALLOW_FRACTION | FILTER_FLAG_ALLOW_THOUSAND
         ];
 
         if (isset($filters[$type])) {
@@ -60,7 +62,7 @@ class Sanitizer
                 case 'arrayUrl':
                 case 'arrayFloat':
                     if (!isset($flags[$type])) {
-                        $flags[$type] = NULL;
+                        $flags[$type] = null;
                     }
                     return self::filterArray($var, $filters[$type], $flags[$type]);
                     break;
@@ -69,31 +71,34 @@ class Sanitizer
                     break;
                 default:
                     if (!isset($flags[$type])) {
-                        $flags[$type] = NULL;
+                        $flags[$type] = null;
                     }
                     return filter_var($var, $filters[$type], $flags[$type]);
             }
-        }
-        else {
+        } else {
             return $var;
         }
     }
 
-    private static function filterHtml(String $s) {
+    private static function filterHtml(string $s)
+    {
         return strip_tags($s, '<p><b><ul><ol><li>');
     }
 
-    private static function filterDate(String $d) {
+    private static function filterDate(string $d)
+    {
         $validChars = '0123456789-:/. ';
         return self::filter($d, $validChars);
     }
 
-    private static function filterIpaddr(String $s){
+    private static function filterIpaddr(string $s)
+    {
         $validChars = '0123456789.';
         return self::filter($s, $validChars);
     }
 
-    private static function filterBool($v) {
+    private static function filterBool($v)
+    {
         if (strtolower($v) == 'false') {
             return false;
         }
@@ -101,7 +106,8 @@ class Sanitizer
         return boolval($v);
     }
 
-    private static function filter($d, $validChars){
+    private static function filter($d, $validChars)
+    {
         $sanitized = '';
 
         for ($i = 0; $i < strlen($d); $i++) {
@@ -114,12 +120,13 @@ class Sanitizer
         return $sanitized;
     }
 
-    private static function filterArray($data, $filter, $flags = NULL) {
+    private static function filterArray($data, $filter, $flags = null)
+    {
         if (!is_array($data)) {
             return null;
         }
 
-        if ($filter == NULL) {
+        if ($filter == null) {
             return $data;
         }
 

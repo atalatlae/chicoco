@@ -1,6 +1,6 @@
 <?php
 
-namespace Chicoco\Http;;
+namespace Chicoco\Http;
 
 use Chicoco\Core\Interfaces\Request;
 use Chicoco\Core\Sanitizer;
@@ -12,11 +12,12 @@ class HttpRequest implements Request
     private $pathParams = [];
     private $ip;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->method = strtoupper($_SERVER['REQUEST_METHOD']);
         $this->ip = null;
         $this->path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-        $this->contentType = $_SERVER['CONTENT_TYPE']??null;
+        $this->contentType = $_SERVER['CONTENT_TYPE'] ?? null;
 
         switch ($this->method) {
             case 'POST':
@@ -37,16 +38,19 @@ class HttpRequest implements Request
         $this->getRemoteIP();
     }
 
-    public function getMethod() {
+    public function getMethod()
+    {
         return $this->method;
     }
 
 
-    public function getPath() {
+    public function getPath()
+    {
         return $this->path;
     }
 
-    public function getParam($name, $type = 'string', $default = null) {
+    public function getParam($name, $type = 'string', $default = null)
+    {
         if (!empty($this->parameters[$name])) {
             return Sanitizer::clear($this->parameters[$name], $type);
         }
@@ -57,13 +61,14 @@ class HttpRequest implements Request
         return $default;
     }
 
-    public function getParamAsObject(Object $object) {
+    public function getParamAsObject(object $object)
+    {
         $has = get_object_vars($object);
 
         $validators = [];
         $className = get_class($object);
 
-        if (defined($className."::dtoValidators")) {
+        if (defined($className . "::dtoValidators")) {
             $validators = $object::dtoValidators;
         }
 
@@ -73,7 +78,7 @@ class HttpRequest implements Request
             switch ($validator) {
                 case 'date':
                     $param = $this->getParam($attr);
-                    $object->$attr = NULL;
+                    $object->$attr = null;
 
                     if (!empty($param)) {
                         $object->$attr = strftime('%Y-%m-%d %H:%M', strtotime($param));
@@ -85,16 +90,19 @@ class HttpRequest implements Request
         }
     }
 
-    public function is($method = null)  {
+    public function is($method = null)
+    {
         $method = strtoupper($method);
         return ($this->method == $method);
     }
 
-    public function getIP() {
+    public function getIP()
+    {
         return $this->ip;
     }
 
-    private function getRemoteIP() {
+    private function getRemoteIP()
+    {
         $keys = [
             'HTTP_CF_CONNECTING_IP',
             'HTTP_X_FORWARDED_FOR',
@@ -119,7 +127,8 @@ class HttpRequest implements Request
         return $this->getParam($name, $type);
     }
 
-    public function __get($name) {
+    public function __get($name)
+    {
         return $this->getParam($name);
     }
 }

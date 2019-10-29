@@ -11,9 +11,9 @@ class HttpController
 
     private $data = array();
 
-    public function __construct (Request $req = null, Log $log = null)
+    public function __construct(Request $req = null, Log $log = null)
     {
-        $this->action = 'Index';
+        $this->action = 'index';
         $this->request = $req;
         $this->log = $log;
 
@@ -29,7 +29,7 @@ class HttpController
         $this->{$this->action}();
     }
 
-    protected function Index()
+    protected function index()
     {
         echo "Index Action";
     }
