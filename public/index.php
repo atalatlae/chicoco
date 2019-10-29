@@ -32,7 +32,7 @@ $app->run();
 $db = DataBase::getInstance('root', '', 'mysql');
 $dao = new Dao($db);
 
-$dao->setSql('SELECT Host, Db FROM Db');
+$dao->setSql('SELECT Host, Db FROM db');
 $dao->clearParams();
 
 $r = $dao->doSelect();
