@@ -1,6 +1,6 @@
 <?php
 
-namespace Chicoco;
+namespace Chicoco\Core;
 
 class Mail
 {

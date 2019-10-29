@@ -1,42 +1,26 @@
 <?php
 
-namespace Chicoco;
+namespace Chicoco\DataBase;
 
-class DataBase extends \PDO
+use PDO;
+use Exception;
+use RuntimeException;
+
+class DataBase extends PDO
 {
     protected static $instance;
-    protected $engine;
-    protected $host;
-    protected $port;
-    protected $dbname;
-    protected $username;
-    protected $pass;
 
-    public function __construct()
+    private function __construct($user, $pass, $dbname, $host = 'localhost', $port = 3306, $engine = 'mysql', $charset = 'utf8')
     {
-        $app = Application::getInstance();
-        $conf = $app->getConfig();
-
-        $this->engine = $conf["database.engine"];
-        $this->host = $conf["database.host"];
-        $this->port = $conf["database.port"];
-        $this->dbname = $conf["database.dbname"];
-        $this->username = $conf["database.username"];
-        $this->pass = $conf["database.pass"];
-
-        try {
-            $dsn = $this->engine.":dbname=".$this->dbname."; host=".$this->host."; port=".$this->port;
-            parent::__construct($dsn, $this->username, $this->pass);
-        } catch (\Exception $e) {
-            throw new \Exception('Database: error when try to connect: '.$e->getMessage());
-            return false;
-        }
+        $dsn = sprintf('%s:dbname=%s; host=%s; port=%d; charset=%s', $engine, $dbname, $host, $port, $charset);
+        parent::__construct($dsn, $user, $pass, array(PDO::MYSQL_ATTR_LOCAL_INFILE => true));
+        self::$instance = $this;
     }
 
-    public static function getInstance()
+    public static function getInstance($user, $pass, $dbname, $host = 'localhost', $port = 3306, $engine = 'mysql')
     {
         if (!self::$instance instanceof self) {
-            self::$instance = new self;
+            self::$instance = new self($user, $pass, $dbname, $host, $port, $engine);
         }
         return self::$instance;
     }

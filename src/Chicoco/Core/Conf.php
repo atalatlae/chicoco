@@ -2,7 +2,6 @@
 
 namespace Chicoco\Core;
 
-use Error;
 use Exception;
 
 class Conf

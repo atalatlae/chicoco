@@ -1,6 +1,6 @@
 <?php
 
-namespace Chicoco;
+namespace Chicoco\Core;
 
 class Log
 {
@@ -38,12 +38,6 @@ class Log
 
     protected function write($message = '', $controller = '', $action = '')
     {
-        try {
-            syslog($this->logLevel, "$controller/$action: $message");
-            return true;
-        } catch (\Exception $e) {
-            $this->msgResult = $e->getMessage();
-            return false;
-        }
+        return syslog($this->logLevel, "$controller/$action: $message");
     }
 }
