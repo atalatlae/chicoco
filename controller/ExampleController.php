@@ -4,6 +4,7 @@ use Chicoco\Controller;
 use Chicoco\LogDb;
 use Chicoco\Mail;
 use Chicoco\Session;
+use Chicoco\ViewHTML;
 
 class ExampleController extends Controller
 {
@@ -13,7 +14,10 @@ class ExampleController extends Controller
 
     public function IndexAction()
     {
-        $this->render();
+        $view = new ViewHTML();
+        $view->setTemplate('Example/Index');
+        $view->setViewVar('foo', 'var');
+        $view->render();
     }
 
     public function FormAction()
