@@ -30,7 +30,7 @@ class HttpController
         $this->{$this->action}();
     }
 
-    protected function index()
+    public function Index()
     {
         echo "Index Action";
         $this->log->info('Info: Index Action');

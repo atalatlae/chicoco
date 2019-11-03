@@ -4,7 +4,7 @@ namespace Chicoco\Http;
 
 use Chicoco\Core\Interfaces\Handler;
 use Chicoco\Core\Interfaces\Request;
-use Chicoco\Core\Interfaces\Controller;
+use Chicoco\Http\Exceptions\HttpException;
 use Chicoco\Http\Exceptions\NotFoundException;
 use Chicoco\Http\Exceptions\NotImplementedException;
 use Chicoco\Http\Exceptions\InternalErrorException;
@@ -14,13 +14,11 @@ class Router implements Handler
 {
     private $request;
     private $actions;
-    private $basePath;
 
-    public function __construct(Request $r, $basePath = '')
+    public function __construct(Request $r)
     {
         $this->request = $r;
         $this->actions = [];
-        $this->basePath = $basePath;
     }
 
     public function get($path, $action)
@@ -51,7 +49,7 @@ class Router implements Handler
 
     public function execute()
     {
-        $path = str_replace($this->basePath, '/', $this->request->getPath());
+        $path = $this->request->path;
         $method = $this->request->getMethod();
 
         try {
@@ -67,23 +65,17 @@ class Router implements Handler
 
             call_user_func($action, $this->request);
             return;
+
         } catch (BadRequestException $e) {
-            $message = $e->getMessage();
-            header('HTTP/1.0 400 ' . $message);
+            $response = new Response($e->getMessage(), 400);
         } catch (NotFoundException $e) {
-            $message = $e->getMessage();
-            header('HTTP/1.0 404 ' . $message);
+            $response = new Response($e->getMessage(), 404);
         } catch (NotImplementedException $e) {
-            $message = $e->getMessage();
-            header('HTTP/1.0 501 ' . $message);
-        } catch (InternalErrorException $e) {
-            $message = $e->getMessage();
-            header('HTTP/1.0 500 ' . $message);
+            $response = new Response($e->getMessage(), 501);
+        } catch (InternalErrorException | HttpException $e) {
+            $response = new Response($e->getMessage(), 500);
         }
 
-        header('Content-Type: application/json');
-        echo json_encode([
-            'status' => 'error', 'message' => $message
-        ]);
+        $response->send();
     }
 }
