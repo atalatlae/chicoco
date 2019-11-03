@@ -3,6 +3,7 @@
 namespace Chicoco\Http;
 
 use Chicoco\Core\Interfaces\Request;
+use Chicoco\Core\Log;
 
 class HttpController
 {
@@ -15,7 +16,7 @@ class HttpController
     {
         $this->action = 'index';
         $this->request = $req;
-        $this->log = $log;
+        $this->log = $log??new Log();
 
         $this->init();
     }
@@ -32,5 +33,8 @@ class HttpController
     protected function index()
     {
         echo "Index Action";
+        $this->log->info('Info: Index Action');
+        $this->log->warning('Warn: Index Action');
+        $this->log->error('Err: Index Action');
     }
 }
