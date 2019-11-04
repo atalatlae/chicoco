@@ -10,7 +10,7 @@ class Response
     protected $headers;
     protected $version;
 
-    protected $codeNames= [
+    protected $codeNames = [
         200 => 'OK',
         301 => 'Moved Permanently',
         400 => 'Bad Request',
@@ -20,16 +20,15 @@ class Response
         500 => 'Internal Server Error',
         501 => 'Not Implemented',
     ];
-    
 
-    public function __construct($content = '', int $statusCode = 200, Array $headers = [])
+    public function __construct($content = '', int $statusCode = 200, array $headers = [])
     {
         $this->content = $content;
         $this->statusCode = $statusCode;
         $this->headers = $headers;
         $this->version = $_SERVER['SERVER_PROTOCOL'];
 
-        $this->statusText = ($this->codeNames[$statusCode])??'unknown';
+        $this->statusText = ($this->codeNames[$statusCode]) ?? 'unknown';
     }
 
     public function send()
@@ -40,11 +39,10 @@ class Response
 
     protected function sendHeaders()
     {
-        header($this->version.' '.$this->statusCode.' '.$this->statusText, true, $this->statusCode);
+        header($this->version . ' ' . $this->statusCode . ' ' . $this->statusText, true, $this->statusCode);
 
-        foreach ($this->headers as $name => $value)
-        {
-            header($name.': '.$value, true, $this->statusCode);
+        foreach ($this->headers as $name => $value) {
+            header($name . ': ' . $value, true, $this->statusCode);
         }
     }
 

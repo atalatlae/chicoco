@@ -16,7 +16,7 @@ class HttpController
     {
         $this->action = 'index';
         $this->request = $req;
-        $this->log = $log??new Log();
+        $this->log = $log ?? new Log();
 
         $this->init();
     }
@@ -30,7 +30,7 @@ class HttpController
         $this->{$this->action}();
     }
 
-    public function Index()
+    public function index()
     {
         echo "Index Action";
         $this->log->info('Info: Index Action');

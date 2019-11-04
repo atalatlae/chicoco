@@ -35,7 +35,7 @@ class AutoRouter implements Handler
         }
     }
 
-    public function register(Array $classes)
+    public function register(array $classes)
     {
         $this->classes = $classes;
     }
@@ -61,7 +61,6 @@ class AutoRouter implements Handler
             $c->{$action}();
 
             return;
-
         } catch (BadRequestException $e) {
             $response = new Response($e->getMessage(), 400);
         } catch (NotFoundException $e) {

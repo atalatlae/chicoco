@@ -65,7 +65,6 @@ class Router implements Handler
 
             call_user_func($action, $this->request);
             return;
-
         } catch (BadRequestException $e) {
             $response = new Response($e->getMessage(), 400);
         } catch (NotFoundException $e) {

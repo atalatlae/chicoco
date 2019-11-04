@@ -26,7 +26,7 @@ class HtmlResponse extends Response
         }
     }
 
-    public function addScript(String $script)
+    public function addScript(string $script)
     {
         $this->scripts[] = $script;
     }
@@ -36,7 +36,7 @@ class HtmlResponse extends Response
         return $this->scripts;
     }
 
-    public function addStyle(String $style)
+    public function addStyle(string $style)
     {
         $this->styles[] = $style;
     }
