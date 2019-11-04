@@ -30,7 +30,6 @@ class Response
         $this->version = $_SERVER['SERVER_PROTOCOL'];
 
         $this->statusText = ($this->codeNames[$statusCode])??'unknown';
-
     }
 
     public function send()
