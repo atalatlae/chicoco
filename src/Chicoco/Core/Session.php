@@ -1,24 +1,24 @@
 <?php
 
-namespace Chicoco;
+namespace Chicoco\Core;
 
 class Session extends Singleton
 {
-    public function __construct()
+    protected function __construct()
     {
         session_start();
     }
 
     public function setVar($name, $value)
     {
-        if ($name != "") {
+        if (!empty($name)) {
             $_SESSION[$name] = $value;
         }
     }
 
     public function getVar($name)
     {
-        if ($name != "" && isset($_SESSION[$name])) {
+        if (!empty($_SESSION[$name])) {
             return $_SESSION[$name];
         }
         return null;

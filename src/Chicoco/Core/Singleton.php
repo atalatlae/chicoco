@@ -1,10 +1,10 @@
 <?php
 
-namespace Chicoco;
+namespace Chicoco\Core;
 
 class Singleton
 {
-    protected static $instance;
+    private static $instance = [];
 
     private function __construct()
     {
@@ -14,10 +14,10 @@ class Singleton
     {
         $calledClass = get_called_class();
 
-        if (!self::$instance instanceof $calledClass) {
-            self::$instance = new $calledClass();
+        if (empty(self::$instance[$calledClass])) {
+            self::$instance[$calledClass] = new $calledClass;
         }
-        return self::$instance;
+        return self::$instance[$calledClass];
     }
 
     public function __clone()

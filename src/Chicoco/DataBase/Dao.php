@@ -22,7 +22,7 @@ class Dao
 
     protected $transactionEnabled = true;
 
-    public function __construct(Database $db)
+    public function __construct(DataBase $db)
     {
         $this->transactionEnabled = true;
         $this->db = $db;
@@ -96,7 +96,7 @@ class Dao
     {
         switch ($fetchAs) {
             case 'class':
-                $result = $this->stmt->fetch(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $class);
+                $result = $this->stmt->fetchObject($class);
                 break;
             case 'numeric':
                 $result = $this->stmt->fetch(PDO::FETCH_NUM);
