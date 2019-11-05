@@ -12,6 +12,16 @@ use Chicoco\Http\HttpRequest;
 use Chicoco\Http\HttpController;
 use Chicoco\DataBase\DataBase;
 use Chicoco\DataBase\Dao;
+use Chicoco\Core\Session;
+
+/* Session */
+$session = Session::getInstance();
+$time = $session->getVar('time');
+
+if ($time == null || (time() - $time  > 5)) {
+    $session->setVar('time', time());
+}
+echo $time.'<br>';
 
 /* Request */
 $r = new HttpRequest();
@@ -36,7 +46,6 @@ $dao->setSql('SELECT Host, Db FROM db');
 $dao->clearParams();
 
 $r = $dao->doSelect();
-$record = $dao->getRow();
+$record = $dao->getResult('class', 'stdClass');
+echo "<pre>";
 print_r($record);
-
-
