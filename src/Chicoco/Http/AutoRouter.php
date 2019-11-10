@@ -55,7 +55,7 @@ class AutoRouter implements Handler
 
             // method not exists: NotImplementedException
             if (!method_exists($c, $action)) {
-                throw new NotImplementedException($action);
+                throw new NotFoundException($this->path);
             }
 
             $c->{$action}();
