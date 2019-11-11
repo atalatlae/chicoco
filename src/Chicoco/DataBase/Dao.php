@@ -75,11 +75,11 @@ class Dao
         $this->sql = $sql;
     }
 
-    public function getResult($fetchAs = 'assoc', $class = null)
+    public function getResult($fetchAs = 'assoc', $class = null, $ctorArgs = null)
     {
         switch ($fetchAs) {
             case 'class':
-                $result = $this->stmt->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $class);
+                $result = $this->stmt->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $class, $ctorArgs);
                 break;
             case 'numeric':
                 $result = $this->stmt->fetchAll(PDO::FETCH_NUM);
@@ -92,11 +92,11 @@ class Dao
         return $result;
     }
 
-    public function getRow($fetchAs = 'assoc', $class = null)
+    public function getRow($fetchAs = 'assoc', $class = null, $ctorArgs = null)
     {
         switch ($fetchAs) {
             case 'class':
-                $result = $this->stmt->fetchObject($class);
+                $result = $this->stmt->fetchObject($class, $ctorArgs);
                 break;
             case 'numeric':
                 $result = $this->stmt->fetch(PDO::FETCH_NUM);
