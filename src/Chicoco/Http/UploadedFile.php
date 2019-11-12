@@ -53,7 +53,8 @@ class UploadedFile
         return true;
     }
 
-    public function __get(string $name) {
+    public function __get(string $name)
+    {
         if (isset($this->$name)) {
             return $this->$name;
         }

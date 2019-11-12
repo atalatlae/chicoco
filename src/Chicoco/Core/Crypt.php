@@ -35,9 +35,9 @@ class Crypt
         );
 
         if ($encoded) {
-            return base64_encode($this->iv.$cipherData);
+            return base64_encode($this->iv . $cipherData);
         }
-        return $this->iv.$cipherData;
+        return $this->iv . $cipherData;
     }
 
     public function decrypt($data, bool $encoded = true)
@@ -59,4 +59,3 @@ class Crypt
         return $clearData;
     }
 }
-

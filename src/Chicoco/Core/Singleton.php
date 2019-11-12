@@ -15,7 +15,7 @@ class Singleton
         $calledClass = get_called_class();
 
         if (empty(self::$instance[$calledClass])) {
-            self::$instance[$calledClass] = new $calledClass;
+            self::$instance[$calledClass] = new $calledClass();
         }
         return self::$instance[$calledClass];
     }
