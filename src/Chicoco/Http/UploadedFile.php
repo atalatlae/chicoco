@@ -15,7 +15,6 @@ class UploadedFile
 
     public function __construct(array $FILE)
     {
-
         if (empty($FILE['name'])) {
             $this->error = UPLOAD_ERR_NO_FILE;
             throw new FileException('missing filename');
