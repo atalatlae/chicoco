@@ -79,17 +79,18 @@ class Dao
     {
         switch ($fetchAs) {
             case 'class':
-                $result = $this->stmt->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $class, $ctorArgs);
+                $this->stmt->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $class, $ctorArgs);
                 break;
-            case 'numeric':
-                $result = $this->stmt->fetchAll(PDO::FETCH_NUM);
+            case 'num':
+                $this->stmt->setFetchMode(PDO::FETCH_NUM);
                 break;
             case 'assoc':
             default:
-                $result = $this->stmt->fetchAll(PDO::FETCH_ASSOC);
+                $this->stmt->setFetchMode(PDO::FETCH_ASSOC);
                 break;
         }
-        return $result;
+
+        return $result = $this->stmt->fetchAll();
     }
 
     public function getRow($fetchAs = 'assoc', $class = null, $ctorArgs = [])
@@ -97,17 +98,17 @@ class Dao
         switch ($fetchAs) {
             case 'class':
                 $this->stmt->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $class, $ctorArgs);
-                $result = $this->stmt->fetch();
                 break;
-            case 'numeric':
-                $result = $this->stmt->fetch(PDO::FETCH_NUM);
+            case 'num':
+                $this->stmt->setFetchMode(PDO::FETCH_NUM);
                 break;
             case 'assoc':
             default:
-                $result = $this->stmt->fetch(PDO::FETCH_ASSOC);
+                $this->stmt->setFetchMode(PDO::FETCH_ASSOC);
                 break;
         }
-        return $result;
+
+        return $this->stmt->fetch();
     }
 
     public function getMsgResult()
