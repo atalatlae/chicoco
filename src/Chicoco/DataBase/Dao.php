@@ -96,7 +96,8 @@ class Dao
     {
         switch ($fetchAs) {
             case 'class':
-                $result = $this->stmt->fetchObject($class, $ctorArgs);
+                $this->stmt->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $class, $ctorArgs);
+                $result = $this->stmt->fetch();
                 break;
             case 'numeric':
                 $result = $this->stmt->fetch(PDO::FETCH_NUM);
