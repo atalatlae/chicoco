@@ -75,7 +75,7 @@ class Dao
         $this->sql = $sql;
     }
 
-    public function getResult($fetchAs = 'assoc', $class = null, $ctorArgs = null)
+    public function getResult($fetchAs = 'assoc', $class = null, $ctorArgs = [])
     {
         switch ($fetchAs) {
             case 'class':
@@ -92,7 +92,7 @@ class Dao
         return $result;
     }
 
-    public function getRow($fetchAs = 'assoc', $class = null, $ctorArgs = null)
+    public function getRow($fetchAs = 'assoc', $class = null, $ctorArgs = [])
     {
         switch ($fetchAs) {
             case 'class':

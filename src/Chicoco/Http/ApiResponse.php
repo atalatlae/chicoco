@@ -23,8 +23,9 @@ class ApiResponse
         $this->setStatus();
     }
 
-    public function setStatus() {
-        $base = (int)($this->responseCode / 100)*100;
+    public function setStatus()
+    {
+        $base = (int)($this->responseCode / 100) * 100;
 
         switch ($base) {
             case 100:

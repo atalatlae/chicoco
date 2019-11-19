@@ -9,12 +9,16 @@ class HtmlResponse extends Response
     protected $data;
     protected $template;
     protected $layout;
+    protected $scripts;
+    protected $styles;
 
     public function __construct($template, $layout = '', int $statusCode = 200, array $headers = [])
     {
         $this->template = $template;
         $this->layout = $layout;
         $this->data = [];
+        $this->scripts = [];
+        $this->styles = [];
 
         parent::__construct('', $statusCode, $headers);
     }
