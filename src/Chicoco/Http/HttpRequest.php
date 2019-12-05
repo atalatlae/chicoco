@@ -26,12 +26,9 @@ class HttpRequest implements Request
             case 'GET':
                 $this->parameters = $_GET;
                 break;
-            case 'DELETE':
-                parse_str(file_get_contents("php://input"), $_DELETE);
-                $this->parameters = $_DELETE;
-                break;
             default:
-                $this->parameters = $_REQUEST;
+                parse_str(file_get_contents("php://input"), $_BODYPARAMS);
+                $this->parameters = array_merge($_REQUEST, $_BODYPARAMS);
                 break;
         }
 
